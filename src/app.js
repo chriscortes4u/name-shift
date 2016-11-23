@@ -46,20 +46,18 @@ getInitialState: function() {
     }]
   };
 },
+
  addMember (person) {
+
    return (e) => {
-     const newState ={}
-     newState[person] = e.target.value
-     this.setState(newState)
+     let members = this.state.members.filter(member => member.id !== person.id)
+     this.setState({members: [person,...members]})
    }
  },
-removeMember (member){
-  member.preventDefault()
-  if (confirm('Are you sure?') ) {
-    json: this.state.member
-  } (err, res, body) => {
-    if (err) return console.log(err.message)
-    this.setState({removed: true})
+removeMember (m){
+  return (e) => {
+    let members = this.state.members.filter(member => member.id !== m.id)
+    this.setState({members})
   }
 },
   render () {
@@ -71,7 +69,7 @@ removeMember (member){
           {this.state.persons.map(p =>
             <li key={p.id}>
               {p.name}
-              <button><a href="#" onClick ={this.addMember}>Add Member</a></button>
+              <button><a href="#" onClick ={this.addMember(p)}>Add Member</a></button>
             </li>
           )}
         </ul>
@@ -82,7 +80,7 @@ removeMember (member){
           {this.state.members.map(m =>
             <li key={m.id}>
               {m.name}
-              <button><a href="#" onClick ={this.removeMember}>Remove</a></button>
+              <button><a href="#" onClick ={this.removeMember(m)}>Remove</a></button>
             </li>
           )}
         </ul>
